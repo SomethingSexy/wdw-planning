@@ -1,0 +1,19 @@
+{
+  "name": "wdw-planning",
+  "version": "0.1.0",
+  "private": true, 
+  "description": "WDW vacation planning application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://somethingsexy@github.com/SomethingSexy/wdw-planning.git"
+  },
+  "author": "Tyler Cvetan",
+  "bugs": {
+    "url": "https://github.com/SomethingSexy/wdw-planning/issues"
+  },
+  "homepage": "https://github.com/SomethingSexy/wdw-planning#readme"
+}
