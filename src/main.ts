@@ -1,15 +1,20 @@
-export class SimpleClass {
-  public add(a: number, b: number): number {
-    const test = { };
-    const test2 = {
-      ...test,
-      balls: 1
-    };
+import { app, BrowserWindow } from 'electron';
 
-    console.log(test2); // tslint:disable-line
-    return a + b;
-  }
+declare let __dirname: string;
+
+let mainWindow: Electron.BrowserWindow;
+
+function onReady() {
+  mainWindow = new BrowserWindow({
+    height: 600,
+    width: 800
+  });
+
+  const fileName = `file://${__dirname}/index.html`;
+  mainWindow.loadURL(fileName);
+  mainWindow.on('close', () => app.quit());
 }
 
-const simpleClass: SimpleClass = new SimpleClass();
-console.log(simpleClass.add(2, 3)); // tslint:disable-line
+app.on('ready', () => onReady());
+app.on('window-all-closed', () => app.quit());
+console.log(`Electron Version ${app.getVersion()}`);  // tslint:disable-line

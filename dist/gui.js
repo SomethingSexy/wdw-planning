@@ -65,33 +65,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_electron__);
 
-let mainWindow;
-function onReady() {
-    mainWindow = new __WEBPACK_IMPORTED_MODULE_0_electron__["BrowserWindow"]({
-        height: 600,
-        width: 800
-    });
-    const fileName = `file://${__dirname}/index.html`;
-    mainWindow.loadURL(fileName);
-    mainWindow.on('close', () => __WEBPACK_IMPORTED_MODULE_0_electron__["app"].quit());
-}
-__WEBPACK_IMPORTED_MODULE_0_electron__["app"].on('ready', () => onReady());
-__WEBPACK_IMPORTED_MODULE_0_electron__["app"].on('window-all-closed', () => __WEBPACK_IMPORTED_MODULE_0_electron__["app"].quit());
-console.log(`Electron Version ${__WEBPACK_IMPORTED_MODULE_0_electron__["app"].getVersion()}`); // tslint:disable-line
+document.getElementsByTagName('body')[0].innerHTML = `node Version: ${process.versions.node}`;
 
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("electron");
 
 /***/ })
 /******/ ]);

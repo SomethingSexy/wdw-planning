@@ -6,6 +6,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "prestart": "npm run build",
+    "start": "electron ./dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +19,11 @@
     "url": "https://github.com/SomethingSexy/wdw-planning/issues"
   },
   "homepage": "https://github.com/SomethingSexy/wdw-planning#readme",
-  "dependencies": {},
+  "dependencies": {
+    "electron": "^1.7.10"
+  },
   "devDependencies": {
+    "html-webpack-plugin": "^2.30.1",
     "ts-loader": "^3.2.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.4.2",
