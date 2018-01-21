@@ -8,7 +8,10 @@
     "jsRules": {},
     "rules": {
       "ter-indent": [true, 2],
-      "trailing-comma": false
+      "trailing-comma": false,
+      "import-name": false,
+      "jsx-boolean-value": "never",
+      "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"]
     },
     "rulesDirectory": []
 }

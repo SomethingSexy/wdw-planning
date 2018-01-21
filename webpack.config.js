@@ -33,7 +33,7 @@ module.exports = [{
   }
 }, {
   target: 'electron-renderer',
-  entry: { gui: './src/gui.ts' },
+  entry: { gui: './src/gui.tsx' },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
