@@ -12,6 +12,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "jsx": "react"
+    "jsx": "react",
+    "experimentalDecorators": true
   }
 }
