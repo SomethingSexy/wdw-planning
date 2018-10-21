@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import cluster from 'cluster';
 import { cpus } from 'os';
+import { join } from 'path';
 import 'reflect-metadata';
 import ApplicationModule from './app.module';
 import config from './config/index';
@@ -29,6 +30,9 @@ if (cluster.isMaster) {
   async function bootstrap() {
     const app = await NestFactory.create(ApplicationModule, {
       logger: new NestLogger(logger)
+    });
+    app.useStaticAssets(join(__dirname, '../../', 'public'), {
+      prefix: '/public/'
     });
     app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalInterceptors(new LoggerInterceptor());
