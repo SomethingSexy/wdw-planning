@@ -11,7 +11,7 @@
       "ter-arrow-parens": [true, "as-needed"],
       "trailing-comma": false,
       "import-name": false,
-      "jsx-boolean-value": "never",
+      "jsx-boolean-value": ["never"],
       "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
       "no-implicit-dependencies": [true, "dev"],
       "object-literal-sort-keys": true,

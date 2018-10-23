@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   entry: './src/client/index.tsx',
+  mode: process.env.NODE_ENV,
   module: {
     rules: [
       {
