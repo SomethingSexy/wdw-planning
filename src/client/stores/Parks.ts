@@ -1,4 +1,4 @@
-// import 'fetch-everywhere';
+import 'fetch-everywhere';
 import { action, observable, runInAction } from 'mobx';
 
 export interface IParkStore {
@@ -20,8 +20,10 @@ class ParkStore implements IParkStore {
   @observable public all: IPark[] = [];
   @observable public loaded = false;
 
+  @action
   public async fetch(): Promise<void> {
-
+    const response = await fetch(`${process.env.API_URL}/parks`);
+    this.all = await response.json();
   }
 
   public findById(id: string): IPark | undefined {

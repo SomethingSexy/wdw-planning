@@ -5,12 +5,13 @@
   "description": "WDW vacation planning application.",
   "main": "modules/server/index.js",
   "scripts": {
+    "build:clean": "rimraf ./lib",
     "build:client": "parcel build --public-url public --out-dir ./lib/public ./src/client/index.html",
     "build:server": "tsc -p server.tsconfig.json && copyfiles -u 1 ./src/**/*.css ./lib/server/",
     "postversion": "git push && git push --tags",
     "start": "cross-env NODE_ENV=production node -r dotenv/config ./lib/server/server/index.js",
     "start:core": "node -r dotenv/config ./lib/server/server/index.js",
-    "start:dev": "cross-env NODE_ENV=development npm run build:client && npm run build:server && npm run start:core",
+    "start:dev": "cross-env NODE_ENV=development npm run build:clean && npm run build:client && npm run build:server && npm run start:core",
     "test": "mocha --opts test/mocha.opts",
     "version": "npm run build && git add -A modules"
   },
@@ -63,6 +64,7 @@
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.4",
     "parcel-bundler": "^1.10.3",
+    "rimraf": "^2.6.2",
     "ts-loader": "^5.2.2",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
