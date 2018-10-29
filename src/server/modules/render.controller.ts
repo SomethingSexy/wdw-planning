@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import renderApp from './renderApp';
 
-const indexFilePath = path.resolve(__dirname, '../../../index.html');
+const indexFilePath = path.resolve(__dirname, '../../../public/index.html');
 // read it at start up, should always have it in memory
 const indexFile = readFileSync(indexFilePath, 'utf-8');
 

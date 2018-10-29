@@ -1,3 +1,8 @@
+import Parks from './Parks';
+
 export default () => {
-  return {};
+  const parks: any = new Parks();
+  return {
+    parks
+  };
 };

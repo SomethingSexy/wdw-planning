@@ -1,4 +1,6 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require('path');
 
 module.exports = {
@@ -8,26 +10,50 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: 'awesome-typescript-loader',
         exclude: [/node_modules/, /src\/server/],
         options: {
-          configFile: 'client.tsconfig.json'
+          configFileName: 'client.tsconfig.json'
         }
       },
       {
         test: /\.ts?$/,
-        loader: 'ts-loader',
+        loader: 'awesome-typescript-loader',
         exclude: [/node_modules/, /src\/server/],
         options: {
-          configFile: 'client.tsconfig.json'
+          configFileName: 'client.tsconfig.json'
         }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it use publicPath in webpackOptions.output
+              publicPath: 'public'
+            }
+          },
+          "css-loader"
+        ]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/client/index.ejs',
-    })
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "public/[name].css",
+      chunkFilename: "[id].css"
+    }),
+    new CopyWebpackPlugin([
+      { from: 'src/client/images/animal-kingdom.jpg', to: 'public/animal-kingdom.jpg' },
+      { from: 'src/client/images/magic-kingdom.jpg', to: 'public/magic-kingdom.jpg' }
+    ])
   ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
@@ -37,80 +63,3 @@ module.exports = {
     path: path.resolve(__dirname, 'lib')
   }
 };
-
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CompressionPlugin = require('compression-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const path = require('path');
-// const webpack = require('webpack');
-
-// const plugins = [
-//   new HtmlWebpackPlugin({
-//     template: './src/index.ejs',
-//     filename: '../index.html'
-//   }),
-//   new ExtractTextPlugin({
-//     filename: 'style.css',
-//     disable: false,
-//     allChunks: true
-//   })
-// ];
-
-// module.exports = {
-//   entry: [
-//     './src/index.tsx'
-//   ],
-//   output: {
-//     path: path.resolve(__dirname, 'public'),
-//     // publicPath: '/public',
-//     filename: '[hash].bundle.js'
-//   },
-//   resolve: {
-//     extensions: ['.ts', '.tsx', '.js', '.jsx']
-//   },
-//   plugins,
-//   // Enable this if you want to generate source maps for the Panda client
-//   //   [http://webpack.github.io/docs/configuration.html#devtool]
-//   // devtool: "#inline-source-map",
-//   module: {
-//     rules: [{
-//       test: /\.ts$/,
-//       exclude: /node_modules/,
-//       include: [
-//         path.resolve(__dirname),
-//         path.resolve(__dirname, '../src')
-//       ],
-//       enforce: 'pre',
-//       loader: 'tslint-loader',
-//       options: {
-//         typeCheck: true,
-//         emitErrors: true
-//       }
-//     }, {
-//       test: /\.tsx?$/,
-//       loader: 'ts-loader',
-//     }, {
-//       test: /\.css$/,
-//       use: ExtractTextPlugin.extract({
-//         fallback: 'style-loader',
-//         use: ['css-loader']
-//       })
-//     }, {
-//       test: /\.less$/,
-//       use: ExtractTextPlugin.extract({
-//         fallback: 'style-loader',
-//         use: ['css-loader', 'less-loader']
-//       })
-//     }, {
-//       test: /\.(eot|woff|woff2|ttf|svg|png|jpg|jpeg)(\?v=\d+.\d+.\d+)?$/,
-//       use: [{
-//         loader: 'url-loader',
-//         options: {
-//           name: '/[name]-[hash].[ext]',
-//           limit: '10000'
-//         }
-//       }]
-//     }]
-//   }
-// };
-

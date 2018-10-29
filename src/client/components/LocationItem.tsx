@@ -18,7 +18,7 @@ const LocationItem: StatelessComponent<IProps> = ({ description, icon, id, image
     <>
       <Item.Image size="small" src={image} />
       <Item.Content>
-        <Item.Header><Link to="/park">{name}</Link></Item.Header>
+        <Item.Header><Link to={`/parks/${id}`}>{name}</Link></Item.Header>
         <Item.Meta>
           <span><FontAwesomeIcon icon={icon} /></span>
           <span>{type}</span>
