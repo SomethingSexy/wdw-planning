@@ -1,19 +1,23 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { StatelessComponent } from 'react';
+import React, { ReactNode, StatelessComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Item } from 'semantic-ui-react';
+import { Container, Item, Label } from 'semantic-ui-react';
 
 interface IProps {
   description: string;
   icon: IconProp;
   id: number;
   image: string;
+  meta?: ReactNode;
   name: string;
+  tags?: string[];
   type: string;
 }
 
-const LocationItem: StatelessComponent<IProps> = ({ description, icon, id, image, name, type }) => {
+const LocationItem: StatelessComponent<IProps> = (
+  { description, icon, id, image, meta, name, tags, type }
+) => {
   return (
     <>
       <Item.Image size="small" src={image} />
@@ -22,8 +26,10 @@ const LocationItem: StatelessComponent<IProps> = ({ description, icon, id, image
         <Item.Meta>
           <span><FontAwesomeIcon icon={icon} /></span>
           <span>{type}</span>
+          {meta}
         </Item.Meta>
         <Item.Description>{description}</Item.Description>
+        {tags && <Item.Extra>{tags.map((tag, index) => <Label key={index}>{tag}</Label>)}</Item.Extra>}
       </Item.Content>
     </>
   );

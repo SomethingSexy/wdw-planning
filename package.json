@@ -6,7 +6,7 @@
   "main": "modules/server/index.js",
   "scripts": {
     "build:clean": "rimraf ./lib",
-    "build:client": "parcel build --public-url public --out-dir ./lib/public ./src/client/index.html",
+    "build:client": "parcel build --public-url public --out-dir ./lib/public ./src/client/index.html && copyfiles -u 3 ./src/client/images/**.jpg ./lib/public",
     "build:server": "tsc -p server.tsconfig.json && copyfiles -u 1 ./src/**/*.css ./lib/server/",
     "postversion": "git push && git push --tags",
     "start": "cross-env NODE_ENV=production node -r dotenv/config ./lib/server/server/index.js",

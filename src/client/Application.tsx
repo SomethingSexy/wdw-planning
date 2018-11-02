@@ -5,7 +5,7 @@ import { renderRoutes } from 'react-router-config';
 import { Link, Route, Switch,  } from 'react-router-dom';
 // tslint:disable-next-line:no-submodule-imports
 import AnimatedSwitch from 'react-router-transition/lib/AnimatedSwitch';
-import { Container, Item, Transition } from 'semantic-ui-react';
+import { Container, Item } from 'semantic-ui-react';
 import Park from './components/Park';
 import Parks from './components/Parks';
 import TopNav from './components/TopNav';
@@ -29,7 +29,7 @@ const routes: any[] = [{
 export default () => {
    /* tslint:disable-next-line:jsx-no-multiline-js */
   return (
-    <>
+    <div>
       <TopNav />
       <Container text style={{ marginTop: '7em' }}>
         <AnimatedSwitch
@@ -41,6 +41,6 @@ export default () => {
           {routes.map(route => (<Route key={route.path} {...route} />))}
         </AnimatedSwitch>
       </Container>
-    </>
+    </div>
   );
 };
