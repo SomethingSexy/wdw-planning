@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const LocationItem: StatelessComponent<IProps> = (
-  { description, icon, id, image, meta, name, tags, type }
+  { description, icon, id, image, meta, name, tags = [], type }
 ) => {
   return (
     <>
@@ -29,7 +29,7 @@ const LocationItem: StatelessComponent<IProps> = (
           {meta}
         </Item.Meta>
         <Item.Description>{description}</Item.Description>
-        {tags && <Item.Extra>{tags.map((tag, index) => <Label key={index}>{tag}</Label>)}</Item.Extra>}
+        {<Item.Extra>{tags.map((tag, index) => <Label key={index}>{tag}</Label>)}</Item.Extra>}
       </Item.Content>
     </>
   );

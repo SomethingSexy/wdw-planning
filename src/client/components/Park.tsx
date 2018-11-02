@@ -1,20 +1,22 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { inject, observer } from 'mobx-react';
 import React, { StatelessComponent } from 'react';
-import { Header, Transition } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 interface IProps {
-  description: string;
-  icon: IconProp;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
+  match: {};
+  parks: any;
 }
 
-const Park: StatelessComponent<IProps> = () => {
-  return (
-    <Header as="h1">Magic Kingdom</Header>
-  );
-};
+// TODO: We probably need to load withFetch to make sure we have all of the parks first
+const Park: StatelessComponent<IProps> = inject('parks')(
+  observer(({ match, parks }) => {
+    const { id } = match.params;
+    const data = parks.findById(id);
+    return (
+      <Header as="h1">{data.name}</Header>
+    );
+  })
+);
 
 export default Park;
