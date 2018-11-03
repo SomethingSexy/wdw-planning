@@ -4,7 +4,7 @@ import Locations from './Locations';
 import Park from './ParkItem';
 import withFetch from './withFetch';
 
-export default withFetch(
+const Parks = withFetch(
   observer(({ parks }) => {
     return (
       <Locations items={parks.all}>{park => <Park park={park} />}</Locations>
@@ -12,3 +12,5 @@ export default withFetch(
   }),
   'parks'
 );
+
+export default Parks;

@@ -1,18 +1,22 @@
 import { faFortAwesome } from '@fortawesome/free-brands-svg-icons';
 import { faStar, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { StatelessComponent } from 'react';
 import { Label } from 'semantic-ui-react';
 import LocationItem from './LocationItem';
 
-export default ({ park }) => {
+interface IProps {
+  park: any; // TODO: common type
+}
+
+const ParkItem: StatelessComponent<IProps> = ({ park }) => {
   const meta = (
     <>
       <Label className="right" color="yellow">
         {park.activitiesCount}<Label.Detail><FontAwesomeIcon icon={faStar} /></Label.Detail>
       </Label>
       <Label className="right" color="blue">
-        10<Label.Detail><FontAwesomeIcon icon={faUtensils} /></Label.Detail>
+      {park.diningCount}<Label.Detail><FontAwesomeIcon icon={faUtensils} /></Label.Detail>
       </Label>
     </>
   );
@@ -31,3 +35,5 @@ export default ({ park }) => {
     />
   );
 };
+
+export default ParkItem;
