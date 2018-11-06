@@ -31,16 +31,21 @@ export default () => {
   return (
     <div>
       <TopNav />
-      <Container text style={{ marginTop: '7em' }}>
-        <AnimatedSwitch
-          atEnter={{ opacity: 0 }}
-          atLeave={{ opacity: 0 }}
-          atActive={{ opacity: 1 }}
-          className="switch-wrapper"
+      <Container style={{ marginTop: '7em' }}>
+        <Switch
         >
           {routes.map(route => (<Route key={route.path} {...route} />))}
-        </AnimatedSwitch>
+        </Switch>
       </Container>
     </div>
   );
 };
+
+{/* <AnimatedSwitch
+atEnter={{ opacity: 0 }}
+atLeave={{ opacity: 0 }}
+atActive={{ opacity: 1 }}
+className="switch-wrapper"
+>
+{routes.map(route => (<Route key={route.path} {...route} />))}
+</AnimatedSwitch> */}

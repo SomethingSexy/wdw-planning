@@ -4,4 +4,10 @@
 
 .switch-wrapper > div {
   position: absolute;
+  width: 100%;
+}
+
+.no-border {
+  border: none !important;
+  box-shadow: none !important;
 }
