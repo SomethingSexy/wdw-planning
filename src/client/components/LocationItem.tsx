@@ -7,7 +7,7 @@ import { Container, Item, Label } from 'semantic-ui-react';
 interface IProps {
   description: string;
   icon: IconProp;
-  id: number;
+  id: string;
   image: string;
   meta?: ReactNode;
   name: string;

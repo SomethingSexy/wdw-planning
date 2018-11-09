@@ -1,16 +1,23 @@
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { StatelessComponent } from 'react';
+import { IParksStore } from '../stores/Parks';
 import Locations from './Locations';
 import Park from './ParkItem';
 import withFetch from './withFetch';
 
-const Parks = withFetch(
-  observer(({ parks }) => {
+interface IProps {
+  parks: IParksStore;
+}
+
+const Parks: StatelessComponent<IProps> = withFetch(
+  observer((props: { parks: IParksStore }) => {
+    const { parks } = props;
+    const items = parks.all;
     return (
-      <Locations items={parks.all}>{park => <Park park={park} />}</Locations>
+      <Locations items={items}>{park => <Park park={park} />}</Locations>
     );
   }),
-  'parks'
+  { inject: true, model: 'parks' }
 );
 
 export default Parks;

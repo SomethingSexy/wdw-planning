@@ -3,34 +3,36 @@ import { faStar, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { StatelessComponent } from 'react';
 import { Label } from 'semantic-ui-react';
+import { IParkStore } from '../stores/Park';
 import LocationItem from './LocationItem';
 
 interface IProps {
-  park: any; // TODO: common type
+  park: IParkStore;
 }
 
 const ParkItem: StatelessComponent<IProps> = ({ park }) => {
+  const item = park.toJson;
   const meta = (
     <>
       <Label className="right" color="yellow">
-        {park.activitiesCount}<Label.Detail><FontAwesomeIcon icon={faStar} /></Label.Detail>
+        {item.activitiesCount}<Label.Detail><FontAwesomeIcon icon={faStar} /></Label.Detail>
       </Label>
       <Label className="right" color="blue">
-      {park.diningCount}<Label.Detail><FontAwesomeIcon icon={faUtensils} /></Label.Detail>
+      {item.diningCount}<Label.Detail><FontAwesomeIcon icon={faUtensils} /></Label.Detail>
       </Label>
     </>
   );
 
   return (
     <LocationItem
-      description={park.description}
-      key={park.id}
+      description={item.description}
+      key={item.id}
       icon={faFortAwesome}
-      id={park.id}
-      image={`public/${park.image}.jpg`}
+      id={item.id}
+      image={`public/${item.image}.jpg`}
       meta={meta}
-      name={park.name}
-      tags={park.areas}
+      name={item.name}
+      tags={item.areas}
       type="Theme Park"
     />
   );

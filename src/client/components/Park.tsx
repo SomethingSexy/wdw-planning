@@ -1,14 +1,14 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import React, { StatelessComponent } from 'react';
-import { Header, List, Segment, Tab, Menu, Label } from 'semantic-ui-react';
+import { Header, Label, Menu, Segment, Tab } from 'semantic-ui-react';
+import { IParksStore } from '../stores/Parks';
 import ParkActivities from './ParkActivities';
 import ParkAreas from './ParkAreas';
 import withFetch from './withFetch';
 
 interface IProps {
-  match: {};
-  parks: any;
+  match: any;
+  parks: IParksStore;
 }
 
 const panes = park => [
@@ -34,15 +34,21 @@ const panes = park => [
   }
 ];
 
-// TODO: We probably need to load withFetch to make sure we have all of the parks first
 const Park: StatelessComponent<IProps> = withFetch(
-  observer(({ match, parks }) => {
+  observer((props: IProps) => {
+    const { match, parks } = props;
     // TODO: figure out how we want to handle loading state
     if (!parks.loaded) {
       return null;
     }
     const { id } = match.params;
-    const data = parks.findById(id);
+    const park = parks.findById(id);
+
+    if (!park) {
+      return null;
+    }
+
+    const data = park.toJson;
     return (
       <>
         <Header as="h1">{data.name}</Header>
@@ -58,8 +64,8 @@ const Park: StatelessComponent<IProps> = withFetch(
       </>
     );
   }),
-  'parks',
   {
+    inject: true,
     isLoading: ({ parks }) => {
       if (parks.loaded) {
         return false;
@@ -67,6 +73,7 @@ const Park: StatelessComponent<IProps> = withFetch(
 
       return true;
     },
+    model: 'parks',
   }
 );
 
