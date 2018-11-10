@@ -31,26 +31,11 @@ const ParkActivities: StatelessComponent<IProps> = withFetch(
     );
   }),
   {
-    // isLoading: ({ parkId, parks }) => {
-    //   // TODO: figure out how we want to handle loading state
-    //   if (!parks.loaded) {
-    //     return false;
-    //   }
-
-    //   const park = parks.findById(parkId);
-
-    //   if (!park.activities) {
-    //     return false;
-    //   }
-
-    //   return true;
-    // },
     find: 'findById',
     id: 'parkId',
-    method: 'fetchParkActivities',
+    method: 'fetchctivities',
     model: 'parks',
     propName: 'park'
-    // params: ['parkId']
   }
 );
 

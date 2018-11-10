@@ -54,9 +54,7 @@ const Park: StatelessComponent<IProps> = withFetch(
         <Header as="h1">{data.name}</Header>
         <Segment basic clearing>
           <div>TODO: Other information</div>
-          <div style={{ float: 'right' }}>
-            <ParkAreas park={data} />
-          </div>
+          <ParkAreas park={data} />
         </Segment>
         <Segment basic>
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(data)} />

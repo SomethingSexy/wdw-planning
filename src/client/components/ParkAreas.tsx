@@ -21,7 +21,7 @@ const ParkAreas: StatelessComponent<IProps> = ({ park }) => {
   return (
     <>
       <Header as="h3">Park Areas</Header>
-      <List animated divided relaxed selection verticalAlign="middle">
+      <List animated divided horizontal relaxed selection tiny verticalAlign="middle">
         {park.areas.map((area, index) => renderArea(park, area, index))}
       </List>
     </>

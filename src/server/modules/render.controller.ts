@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Req, Res } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import path from 'path';
 import renderApp from './renderApp';
@@ -13,10 +13,11 @@ class RenderController {
    * Accepts all requests for rendering a route.
    */
   @Get('/*')
-  public async render(@Res() request): Promise<void> {
+  public async render(@Req() request, @Res() response): Promise<void> {
+    // TODO: handle favicon.ico
     const app = renderApp(request.url);
 
-    request
+    response
       .status(HttpStatus.OK)
       .send(indexFile.replace('<div id="app"></div>', `<div id="app">${app}</div>`));
   }

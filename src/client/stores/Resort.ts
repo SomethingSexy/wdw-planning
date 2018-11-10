@@ -2,17 +2,17 @@ import 'fetch-everywhere';
 import { action, computed, observable, runInAction } from 'mobx';
 import { alphabetical } from './utils';
 
-export interface IParkStore {
+export interface IResortStore {
   id: string;
   isLoading: boolean;
-  toJson: IPark;
+  toJson: IResort;
 }
 
 interface IActivity {
   id: string;
 }
 
-export interface IPark {
+export interface IResort {
   activities?: any[];
   activitiesCount: number;
   areas: string[];
@@ -26,7 +26,7 @@ export interface IPark {
   location: string;
 }
 
-class Park implements IParkStore {
+class Resort implements IResortStore {
   @observable public isLoading: boolean = false;
   @observable public loaded = false;
   public id: string;
@@ -66,7 +66,7 @@ class Park implements IParkStore {
 
     if (!this.activities) {
       this.isLoading = true;
-      const response = await fetch(`${process.env.API_URL}/parks/${this.id}/activities`);
+      const response = await fetch(`${process.env.API_URL}/resorts/${this.id}/activities`);
       const activities: IActivity[] = await response.json();
       runInAction(() => {
         activities.sort(alphabetical.bind(undefined, 'name'));
@@ -77,7 +77,7 @@ class Park implements IParkStore {
   }
 
   @computed
-  public get toJson(): IPark {
+  public get toJson(): IResort {
     return {
       activities: this.activities,
       activitiesCount: this.activitiesCount,
@@ -94,4 +94,4 @@ class Park implements IParkStore {
   }
 }
 
-export default Park;
+export default Resort;
