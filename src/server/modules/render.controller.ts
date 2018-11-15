@@ -15,7 +15,10 @@ class RenderController {
   @Get('/*')
   public async render(@Req() request, @Res() response): Promise<void> {
     // TODO: handle favicon.ico
-    const app = renderApp(request.url);
+    if (request.url === '/favicon.ico') {
+      return;
+    }
+    const app = await renderApp(request.url);
 
     response
       .status(HttpStatus.OK)

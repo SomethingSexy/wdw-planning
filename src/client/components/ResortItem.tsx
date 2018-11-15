@@ -3,11 +3,12 @@ import { faStar, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { StatelessComponent } from 'react';
 import { Label } from 'semantic-ui-react';
-import { IResortStore } from '../stores/Resort';
+import { IResort } from '../stores/Resort';
+import { ILocationStore } from '../stores/types';
 import LocationItem from './LocationItem';
 
 interface IProps {
-  resort: IResortStore;
+  resort: ILocationStore<IResort>;
 }
 
 const ResortItem: StatelessComponent<IProps> = ({ resort }) => {
@@ -26,14 +27,14 @@ const ResortItem: StatelessComponent<IProps> = ({ resort }) => {
   return (
     <LocationItem
       description={item.description}
+      detailPath={`/resorts/${item.id}`}
       key={item.id}
       icon={faFortAwesome}
       id={item.id}
-      image={`public/${item.image}.jpg`}
       meta={meta}
       name={item.name}
       tags={item.areas}
-      type="Resort"
+      type={`Resort - ${item.tier}`}
     />
   );
 };

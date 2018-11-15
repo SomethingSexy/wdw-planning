@@ -1,7 +1,9 @@
 import createReactClass from 'create-react-class';
-import { inject, observer } from 'mobx-react';
+import { inject, IReactComponent, observer } from 'mobx-react';
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
+
+export type need = () => Promise<any>;
 
 interface IOptions {
   find?: string;
@@ -14,12 +16,15 @@ interface IOptions {
   propName?: string;
 }
 
+const PARAM = 'param:';
+const PROP = 'prop:';
+
 export default (
   WrappedComponent, options: IOptions): any => {
   const { model } = options;
   // const injectModel = options.inject || false;
 
-  const observed = observer(
+  const observed: IReactComponent & { needs?: need[] } = observer(
     // TODO: Replace with stateless component and hooks when they are release in react
     createReactClass({
       componentDidMount() {
@@ -32,11 +37,6 @@ export default (
         }
 
         store[method || 'fetch']();
-        // if (params) {
-        //   call.call(this.props[model], ...params.map(param => this.props[param]));
-        // } else {
-          // call.call(this.props[model]);
-        // }
       },
       findModel() {
         const { find, id, method, params } = options;
@@ -44,7 +44,16 @@ export default (
           return null;
         }
 
-        return this.props[model][find](this.props[id]);
+        let value;
+        if (id.startsWith(PARAM)) {
+          const idField = id.substring(PARAM.length);
+          value = this.props.match.params[idField];
+        } else if (id.startsWith(PROP)) {
+          const idField = id.substring(PROP.length);
+          value = this.props[idField];
+        }
+
+        return this.props[model][find](value);
       },
       render() {
         const { isLoading, find, propName, id } = options;
@@ -73,9 +82,7 @@ export default (
     })
   );
 
-  // if (injectModel) {
-  return inject(model)(observed);
-  // }
+  observed.needs = [() => Promise.resolve('balls')];
 
-  // return observed;
+  return inject(model)(observed);
 };

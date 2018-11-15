@@ -1,21 +1,19 @@
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { renderRoutes } from 'react-router-config';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-// tslint:disable-next-line:no-submodule-imports
-import AnimatedSwitch from 'react-router-transition/lib/AnimatedSwitch';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container, Item } from 'semantic-ui-react';
 import MainNav from './components/MainNav';
 import Park from './components/Park';
+import ParkActivities from './components/ParkActivities';
 import Parks from './components/Parks';
+import Resort from './components/Resort';
 import Resorts from './components/Resorts';
+import Root from './components/Root';
 import TopNav from './components/TopNav';
-// import Root from './Root';
 import './theme.css';
 
-const routes: any[] = [{
-  component: Parks,
+export const routes: any[] = [{
+  component: Root,
   exact: true,
   path: '/',
 }, {
@@ -24,12 +22,22 @@ const routes: any[] = [{
   path: '/parks',
 }, {
   component: Park,
-  exact: true,
-  path: '/parks/:id'
+  path: '/parks/:id',
+  routes: [
+    {
+      component: ParkActivities,
+      exact: true,
+      path: '/parks/:id/activities'
+    }
+  ]
 }, {
   component: Resorts,
   exact: true,
   path: '/resorts',
+}, {
+  component: Resort,
+  exact: true,
+  path: '/resorts/:id',
 }];
 
 export default () => {
@@ -42,12 +50,14 @@ export default () => {
         <Switch
         >
           <Redirect exact from="/" to="/parks" />
-          {routes.map(route => (<Route key={route.path} {...route} />))}
+          {renderRoutes(routes)}
         </Switch>
       </Container>
     </div>
   );
 };
+
+// {routes.map(route => (<Route key={route.path} {...route} />))}
 
 {/* <AnimatedSwitch
 atEnter={{ opacity: 0 }}

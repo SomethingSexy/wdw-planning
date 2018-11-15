@@ -16,7 +16,7 @@ interface IProps {
   match: any;
 }
 
-const TopNav: StatelessComponent<IProps> = ({ location }) => {
+const MainNav: StatelessComponent<IProps> = ({ location }) => {
   const { pathname } = location;
   return (
     <Menu pointing secondary>
@@ -44,4 +44,4 @@ const TopNav: StatelessComponent<IProps> = ({ location }) => {
   );
 };
 
-export default withRouter(TopNav);
+export default withRouter(MainNav);

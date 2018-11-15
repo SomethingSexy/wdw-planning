@@ -1,42 +1,22 @@
 import { observer } from 'mobx-react';
 import React, { StatelessComponent } from 'react';
+import { renderRoutes } from 'react-router-config';
 import { Header, Label, Menu, Segment, Tab } from 'semantic-ui-react';
 import { IParksStore } from '../stores/Parks';
-import ParkActivities from './ParkActivities';
+// import ParkActivities from './ParkActivities';
 import ParkAreas from './ParkAreas';
+import ParkNav from './ParkNav';
 import withFetch from './withFetch';
 
 interface IProps {
   match: any;
   parks: IParksStore;
+  route: any;
 }
-
-const panes = park => [
-  {
-    menuItem: (
-      <Menu.Item key="attractions">
-        Attractions<Label color="yellow">{park.activitiesCount}</Label>
-      </Menu.Item>
-    ),
-    render: () => (
-      <Tab.Pane attached={false} className="no-border">
-        <ParkActivities parkId={park.id} />
-      </Tab.Pane>
-    )
-  },
-  {
-    menuItem: (
-      <Menu.Item key="dining">
-        Dining<Label color="blue">{park.diningCount}</Label>
-      </Menu.Item>
-    ),
-    render: () => <Tab.Pane attached={false} className="no-border">Tab 2 Content</Tab.Pane>
-  }
-];
 
 const Park: StatelessComponent<IProps> = withFetch(
   observer((props: IProps) => {
-    const { match, parks } = props;
+    const { match, parks, route } = props;
     // TODO: figure out how we want to handle loading state
     if (!parks.loaded) {
       return null;
@@ -57,7 +37,13 @@ const Park: StatelessComponent<IProps> = withFetch(
           <ParkAreas park={data} />
         </Segment>
         <Segment basic>
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(data)} />
+          <ParkNav
+            activitiesCount={data.activitiesCount}
+            diningCount={data.diningCount}
+            id={data.id}
+          />
+          {renderRoutes(route.routes)}
+          {/* <Tab menu={{ secondary: true, pointing: true }} panes={panes(data)} /> */}
         </Segment>
       </>
     );

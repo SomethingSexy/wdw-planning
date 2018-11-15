@@ -1,12 +1,7 @@
 import 'fetch-everywhere';
 import { action, computed, observable, runInAction } from 'mobx';
+import { ILocationStore } from './types';
 import { alphabetical } from './utils';
-
-export interface IParkStore {
-  id: string;
-  isLoading: boolean;
-  toJson: IPark;
-}
 
 interface IActivity {
   id: string;
@@ -26,7 +21,7 @@ export interface IPark {
   location: string;
 }
 
-class Park implements IParkStore {
+class Park implements ILocationStore<IPark> {
   @observable public isLoading: boolean = false;
   @observable public loaded = false;
   public id: string;

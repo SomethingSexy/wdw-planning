@@ -3,11 +3,12 @@ import { faStar, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { StatelessComponent } from 'react';
 import { Label } from 'semantic-ui-react';
-import { IParkStore } from '../stores/Park';
+import { IPark } from '../stores/Park';
+import { ILocationStore } from '../stores/types';
 import LocationItem from './LocationItem';
 
 interface IProps {
-  park: IParkStore;
+  park: ILocationStore<IPark>;
 }
 
 const ParkItem: StatelessComponent<IProps> = ({ park }) => {
@@ -26,6 +27,7 @@ const ParkItem: StatelessComponent<IProps> = ({ park }) => {
   return (
     <LocationItem
       description={item.description}
+      detailPath={`/parks/${item.id}/activities`}
       key={item.id}
       icon={faFortAwesome}
       id={item.id}

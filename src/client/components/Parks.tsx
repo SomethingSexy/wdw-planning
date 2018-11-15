@@ -3,14 +3,14 @@ import React, { StatelessComponent } from 'react';
 import { IParksStore } from '../stores/Parks';
 import Locations from './Locations';
 import Park from './ParkItem';
-import withFetch from './withFetch';
+import withFetch, { need } from './withFetch';
 
 interface IProps {
   parks: IParksStore;
 }
 
-const Parks: StatelessComponent<IProps> = withFetch(
-  observer((props: { parks: IParksStore }) => {
+const Parks: StatelessComponent<IProps> & { needs: need[] }  = withFetch(
+  observer((props: IProps) => {
     const { parks } = props;
     const items = parks.all;
     return (

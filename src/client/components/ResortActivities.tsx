@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react';
 import React, { StatelessComponent } from 'react';
-import { IPark } from '../stores/Park';
+import { IResort } from '../stores/Resort';
 import { ILocationStore } from '../stores/types';
 import LocationActivities from './LocationActivities';
 import withFetch from './withFetch';
 
 interface IProps {
-  store?: ILocationStore<IPark>;
+  store?: ILocationStore<IResort>;
   id: string;
 }
 
-const ParkActivities: StatelessComponent<IProps> = withFetch(
+const ResortActivities: StatelessComponent<IProps> = withFetch(
   observer((props: IProps) => {
     const { id, store } = props;
     if (!store) {
@@ -29,11 +29,11 @@ const ParkActivities: StatelessComponent<IProps> = withFetch(
   }),
   {
     find: 'findById',
-    id: 'param:id',
+    id: 'id',
     method: 'fetchActivities',
-    model: 'parks',
+    model: 'resorts',
     propName: 'store'
   }
 );
 
-export default ParkActivities;
+export default ResortActivities;

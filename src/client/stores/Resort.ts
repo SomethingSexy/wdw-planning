@@ -1,12 +1,7 @@
 import 'fetch-everywhere';
 import { action, computed, observable, runInAction } from 'mobx';
+import { ILocationStore } from './types';
 import { alphabetical } from './utils';
-
-export interface IResortStore {
-  id: string;
-  isLoading: boolean;
-  toJson: IResort;
-}
 
 interface IActivity {
   id: string;
@@ -22,11 +17,12 @@ export interface IResort {
   id: string;
   image: string;
   name: string;
+  tier: string;
   type: string;
   location: string;
 }
 
-class Resort implements IResortStore {
+class Resort implements ILocationStore<IResort> {
   @observable public isLoading: boolean = false;
   @observable public loaded = false;
   public id: string;
@@ -39,6 +35,7 @@ class Resort implements IResortStore {
   private dining: any[] | undefined = undefined;
   private location: string;
   private name: string;
+  private tier: string;
   private type: string;
 
   constructor(json) {
@@ -49,6 +46,7 @@ class Resort implements IResortStore {
     this.activitiesCount = json.activitiesCount;
     this.diningCount = json.diningCount;
     this.name = json.name;
+    this.tier = json.tier;
     this.type = json.type;
     this.location = json.location;
     this.loaded = true;
@@ -89,6 +87,7 @@ class Resort implements IResortStore {
       image: this.image,
       location: this.location,
       name: this.name,
+      tier: this.tier,
       type: this.type
     };
   }

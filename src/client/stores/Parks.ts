@@ -1,11 +1,13 @@
 import 'fetch-everywhere';
 import { action, computed, observable, runInAction } from 'mobx';
-import Park, { IPark, IParkStore } from './Park';
+import Park, { IPark } from './Park';
+import { ILocationStore } from './types';
 import { alphabetical } from './utils';
 
 export interface IParksStore {
-  all: IParkStore[];
-  findById: (id: string) => IParkStore | undefined;
+  // tslint:disable-next-line:prefer-array-literal
+  all: Array<ILocationStore<IPark>>;
+  findById: (id: string) => ILocationStore<IPark> | undefined;
   isLoading: boolean;
   loaded: boolean;
   toJson: IPark[];
@@ -17,7 +19,8 @@ interface IActivity {
 
 class ParkStore implements IParksStore {
   @observable public isLoading: boolean = false;
-  @observable public all: IParkStore[] = [];
+  // tslint:disable-next-line:prefer-array-literal
+  @observable public all: Array<ILocationStore<IPark>> = [];
   @observable public loaded = false;
 
   @action
@@ -37,7 +40,7 @@ class ParkStore implements IParksStore {
     });
   }
 
-  public findById(id: string): IParkStore | undefined {
+  public findById(id: string): ILocationStore<IPark> | undefined {
     return this.all.find(park => park.id === id);
   }
 

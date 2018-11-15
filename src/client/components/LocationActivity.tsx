@@ -14,7 +14,7 @@ interface IProps {
   type: string;
 }
 
-const ParkActivity: StatelessComponent<IProps> = (
+const LocationActivity: StatelessComponent<IProps> = (
   { description, icon, id, image, meta, name, tags = [], type }
 ) => {
   return (
@@ -28,4 +28,4 @@ const ParkActivity: StatelessComponent<IProps> = (
   );
 };
 
-export default ParkActivity;
+export default LocationActivity;

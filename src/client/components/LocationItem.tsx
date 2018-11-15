@@ -6,9 +6,10 @@ import { Container, Item, Label } from 'semantic-ui-react';
 
 interface IProps {
   description: string;
+  detailPath: string;
   icon: IconProp;
   id: string;
-  image: string;
+  image?: string;
   meta?: ReactNode;
   name: string;
   tags?: string[];
@@ -16,13 +17,13 @@ interface IProps {
 }
 
 const LocationItem: StatelessComponent<IProps> = (
-  { description, icon, id, image, meta, name, tags = [], type }
+  { description, icon, id, image, meta, name, detailPath, tags = [], type }
 ) => {
   return (
     <>
-      <Item.Image size="small" src={image} />
+      {image && <Item.Image size="small" src={image} />}
       <Item.Content>
-        <Item.Header><Link to={`/parks/${id}`}>{name}</Link></Item.Header>
+        <Item.Header><Link to={detailPath}>{name}</Link></Item.Header>
         <Item.Meta>
           <span><FontAwesomeIcon icon={icon} /></span>
           <span>{type}</span>
