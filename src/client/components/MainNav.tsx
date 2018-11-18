@@ -24,21 +24,18 @@ const MainNav: StatelessComponent<IProps> = ({ location }) => {
         active={pathname.startsWith('/parks') || pathname === '/'}
         style={leftMenu}
       >
-        <FontAwesomeIcon icon={faFortAwesome} style={icon} />
-        <Link to="/parks">Parks</Link>
+        <Link to="/parks"><FontAwesomeIcon icon={faFortAwesome} style={icon} />Parks</Link>
       </Menu.Item>
       <Menu.Item
         active={pathname.startsWith('/resorts')}
       >
-        <FontAwesomeIcon icon={faHotel} style={icon} />
-        <Link to="/resorts">Resorts</Link>
+        <Link to="/resorts"><FontAwesomeIcon icon={faHotel} style={icon} />Resorts</Link>
       </Menu.Item>
       <Menu.Item
         active={pathname.startsWith('/attractions')}
         style={rightMenu}
       >
-        <FontAwesomeIcon icon={faStar} style={icon} />
-        <Link to="/attractions">Attractions</Link>
+        <Link to="/attractions"><FontAwesomeIcon icon={faStar} style={icon} />Attractions</Link>
       </Menu.Item>
     </Menu>
   );

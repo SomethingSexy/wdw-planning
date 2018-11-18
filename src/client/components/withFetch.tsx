@@ -22,7 +22,6 @@ const PROP = 'prop:';
 export default (
   WrappedComponent, options: IOptions): any => {
   const { model } = options;
-  // const injectModel = options.inject || false;
 
   const observed: IReactComponent & { needs?: need[] } = observer(
     // TODO: Replace with stateless component and hooks when they are release in react
@@ -82,6 +81,7 @@ export default (
     })
   );
 
+  // TODO: This needs to get dynamically generated
   observed.needs = [() => Promise.resolve('balls')];
 
   return inject(model)(observed);

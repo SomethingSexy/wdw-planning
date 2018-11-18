@@ -3,7 +3,6 @@ import React, { StatelessComponent } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { Header, Label, Menu, Segment, Tab } from 'semantic-ui-react';
 import { IParksStore } from '../stores/Parks';
-// import ParkActivities from './ParkActivities';
 import ParkAreas from './ParkAreas';
 import ParkNav from './ParkNav';
 import withFetch from './withFetch';

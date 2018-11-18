@@ -1,12 +1,14 @@
 import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container, Item } from 'semantic-ui-react';
+import { Container, Item, Segment, Sidebar } from 'semantic-ui-react';
+import DaySideBar from './components/DaySideBar';
 import MainNav from './components/MainNav';
 import Park from './components/Park';
 import ParkActivities from './components/ParkActivities';
 import Parks from './components/Parks';
 import Resort from './components/Resort';
+import ResortActivities from './components/ResortActivities';
 import Resorts from './components/Resorts';
 import Root from './components/Root';
 import TopNav from './components/TopNav';
@@ -36,8 +38,15 @@ export const routes: any[] = [{
   path: '/resorts',
 }, {
   component: Resort,
-  exact: true,
+  // exact: true,
   path: '/resorts/:id',
+  routes: [
+    {
+      component: ResortActivities,
+      exact: true,
+      path: '/resorts/:id/activities'
+    }
+  ]
 }];
 
 export default () => {
@@ -45,14 +54,19 @@ export default () => {
   return (
     <div>
       <TopNav />
-      <Container style={{ marginTop: '7em' }}>
-        <MainNav />
-        <Switch
-        >
-          <Redirect exact from="/" to="/parks" />
-          {renderRoutes(routes)}
-        </Switch>
-      </Container>
+      <Sidebar.Pushable as={Container}>
+        <DaySideBar />
+        <Sidebar.Pusher>
+          <Container style={{ marginTop: '7em' }}>
+            <MainNav />
+            <Switch
+            >
+              <Redirect exact from="/" to="/parks" />
+              {renderRoutes(routes)}
+            </Switch>
+          </Container>
+        </Sidebar.Pusher>
+      </Sidebar.Pushable>
     </div>
   );
 };
