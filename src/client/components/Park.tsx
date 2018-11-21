@@ -48,7 +48,7 @@ const Park: StatelessComponent<IProps> = withFetch(
     );
   }),
   {
-    inject: true,
+    fetch: 'parks',
     isLoading: ({ parks }) => {
       if (parks.loaded) {
         return false;
@@ -56,7 +56,7 @@ const Park: StatelessComponent<IProps> = withFetch(
 
       return true;
     },
-    model: 'parks',
+    models: 'parks',
   }
 );
 

@@ -71,7 +71,7 @@ const Resort: StatelessComponent<IProps> = withFetch(
     );
   }),
   {
-    inject: true,
+    fetch: 'resorts',
     isLoading: ({ resorts }) => {
       if (resorts.loaded) {
         return false;
@@ -79,7 +79,7 @@ const Resort: StatelessComponent<IProps> = withFetch(
 
       return true;
     },
-    model: 'resorts',
+    models: 'resorts',
   }
 );
 

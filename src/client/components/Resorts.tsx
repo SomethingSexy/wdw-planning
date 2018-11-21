@@ -17,7 +17,7 @@ const Resorts: StatelessComponent<IProps> = withFetch(
       <Locations items={items}>{resort => <Resort resort={resort} />}</Locations>
     );
   }),
-  { inject: true, model: 'resorts' }
+  { fetch: 'resorts', models: 'resorts' }
 );
 
 export default Resorts;

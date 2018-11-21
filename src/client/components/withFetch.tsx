@@ -5,31 +5,44 @@ import { Segment } from 'semantic-ui-react';
 
 export type need = () => Promise<any>;
 
+/**
+ *
+ */
 interface IOptions {
+  // method to find a specific model
   find?: string;
+  // param or prop key for the id for the model, used when searching
   id?: string;
-  inject?: boolean;
+  // override to determine if the model is loading or not
   isLoading?: ((props: any) => boolean) | string;
-  model: string;
+  // models to fetch
+  fetch: string;
+  models: string | string[];
+  // method to call when fetching
   method?: string;
-  params?: string[];
+  // store name to return as a prop when searching
   propName?: string;
 }
 
 const PARAM = 'param:';
 const PROP = 'prop:';
 
+/**
+ * TODO: This needs to handle the ability to load and fetch an individual one
+ * and check if both are loaded, this can remove the need for Park.tsx needing to
+ * have the custom isLoading function.
+ */
 export default (
   WrappedComponent, options: IOptions): any => {
-  const { model } = options;
+  const { fetch, models } = options;
 
   const observed: IReactComponent & { needs?: need[] } = observer(
     // TODO: Replace with stateless component and hooks when they are release in react
     createReactClass({
       componentDidMount() {
-        const { find, id, method, params } = options;
+        const { find, id, method } = options;
 
-        let store = this.props[model];
+        let store = this.props[fetch];
         // need to find the model first
         if (find && id) {
           store = this.findModel();
@@ -38,7 +51,7 @@ export default (
         store[method || 'fetch']();
       },
       findModel() {
-        const { find, id, method, params } = options;
+        const { find, id, method } = options;
         if (!find || !id) {
           return null;
         }
@@ -52,13 +65,13 @@ export default (
           value = this.props[idField];
         }
 
-        return this.props[model][find](value);
+        return this.props[fetch][find](value);
       },
       render() {
         const { isLoading, find, propName, id } = options;
 
         let props = this.props;
-        let store = this.props[model];
+        let store = this.props[fetch];
         if (find && id && propName) {
           store =  this.findModel();
           props = {
@@ -84,5 +97,11 @@ export default (
   // TODO: This needs to get dynamically generated
   observed.needs = [() => Promise.resolve('balls')];
 
-  return inject(model)(observed);
+  // TODO: TS freaked out when I inlined the type check
+  if (typeof models === 'string') {
+    return inject(models)(observed);
+  }
+
+  return inject(...models)(observed);
+
 };

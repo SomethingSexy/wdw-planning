@@ -1,56 +1,76 @@
-import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { inject, observer } from 'mobx-react';
 import React, { StatelessComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, Header, Segment, Sidebar, Table } from 'semantic-ui-react';
 import { IAppStore } from '../stores/App';
+import { IDayStore } from '../stores/Days';
+import DaySideBarHours from './DaySideBarHours';
+import DaySideBarWeather from './DaySideBarWeather';
+import withFetch from './withFetch';
 
 interface IProps {
-  app?: IAppStore;
+  app: IAppStore;
+  days: IDayStore;
 }
 
+const dateStyle = {
+  marginBottom: '1em',
+  marginTop: '1em'
+};
+
 // TODO: Add colors for special event days and extended magic hours
-const DaySideBar: StatelessComponent<IProps> = observer(
-  (props: IProps) => (
-    <Sidebar
-      as={Segment}
-      animation="overlay"
-      direction="top"
-      style={{ marginTop: '3em !important' }}
-      visible={props.app && props.app.showDay}
-    >
-      <Grid.Row align="center" columns={1}>
-        <Grid.Column>
-          <Header as="h3">Thursday, March 2nd 2019</Header>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid columns={2} divided>
-        <Grid.Row>
-          <Grid.Column align="center">
-            <Header as="h4">Hours</Header>
-            <Table basic="very" celled collapsing>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Park</Table.HeaderCell>
-                  <Table.HeaderCell>Hours</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Magic Kingdom</Table.Cell>
-                  <Table.Cell>10:00 AM to 12:00 AM</Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
-          </Grid.Column>
-          <Grid.Column align="center">
-            <Header as="h4">Weather</Header>
-            Morning / Afternoon / Night
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Sidebar>
-  )
+const DaySideBar: StatelessComponent = withFetch(
+  observer(
+    (props: IProps) => {
+      const { app, days } = props;
+      const today = days.today;
+      if (!today) {
+        return null;
+      }
+      const visible = props.app && props.app.showDay;
+      return (
+        <Sidebar
+          as={Segment}
+          animation="overlay"
+          className="day-sidebar"
+          direction="top"
+          visible={visible}
+        >
+          <Grid columns={3} style={dateStyle}>
+            <Grid.Row >
+              <Grid.Column align="right">
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </Grid.Column>
+              <Grid.Column align="center">
+                <Header as="h3">
+                  <Link to={`/days/${today.date}`}>{today.label}</Link>
+                </Header>
+              </Grid.Column>
+              <Grid.Column align="left">
+                <FontAwesomeIcon icon={faArrowRight} />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Grid columns={2} divided>
+            <Grid.Row>
+              <Grid.Column align="center">
+                <DaySideBarHours parks={today.parkHours} />
+              </Grid.Column>
+              <Grid.Column align="center">
+                <DaySideBarWeather />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Sidebar>
+      );
+    }
+  ),
+  {
+    fetch: 'days',
+    models: ['app', 'days']
+  }
 );
 
-export default inject('app')(DaySideBar);
+export default DaySideBar;

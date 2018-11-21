@@ -28,10 +28,11 @@ const ResortActivities: StatelessComponent<IProps> = withFetch(
     );
   }),
   {
+    fetch: 'resorts',
     find: 'findById',
     id: 'param:id',
     method: 'fetchActivities',
-    model: 'resorts',
+    models: 'resorts',
     propName: 'store'
   }
 );

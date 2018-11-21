@@ -17,7 +17,7 @@ const Parks: StatelessComponent<IProps> & { needs: need[] }  = withFetch(
       <Locations items={items}>{park => <Park park={park} />}</Locations>
     );
   }),
-  { inject: true, model: 'parks' }
+  { fetch: 'parks', models: 'parks' }
 );
 
 export default Parks;

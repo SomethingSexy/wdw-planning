@@ -49,6 +49,8 @@ export const routes: any[] = [{
   ]
 }];
 
+const containerStyle = { marginTop: '5em' };
+
 export default () => {
    /* tslint:disable-next-line:jsx-no-multiline-js */
   return (
@@ -57,7 +59,7 @@ export default () => {
       <Sidebar.Pushable as={Container}>
         <DaySideBar />
         <Sidebar.Pusher>
-          <Container style={{ marginTop: '7em' }}>
+          <Container style={containerStyle}>
             <MainNav />
             <Switch
             >

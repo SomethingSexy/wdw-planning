@@ -26,7 +26,7 @@ const TopNav: StatelessComponent<IProps> = props => {
               as="a"
               onClick={toggle}
             >
-              Date <FontAwesomeIcon icon={faCloudSun} />
+              3/2/2019 <FontAwesomeIcon icon={faCloudSun} />
             </Button>
           </Menu.Item>
         </Menu.Menu>

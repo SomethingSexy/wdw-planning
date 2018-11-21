@@ -13,10 +13,6 @@ export interface IParksStore {
   toJson: IPark[];
 }
 
-interface IActivity {
-  id: string;
-}
-
 class ParkStore implements IParksStore {
   @observable public isLoading: boolean = false;
   // tslint:disable-next-line:prefer-array-literal
