@@ -1,18 +1,10 @@
 import 'fetch-everywhere';
 import { action, computed, observable, runInAction } from 'mobx';
-import { alphabetical } from './utils';
 
-const tempDays: IDay[] = [{
-  date: '2018-10-20',
-  id: '1',
-  label: 'Thursday, March 2nd 2019',
-  parkHours: [{
-    close: '12:00 AM',
-    id: 'a',
-    name: 'Magic Kingdom',
-    open: '10:00 AM',
-  }]
-}];
+interface IDays {
+  active: string;
+  days: IDay[];
+}
 
 export interface IParkHour {
   close: string;
@@ -33,7 +25,9 @@ export interface IDayStore {
   findById: (id: string) => IDay| undefined;
   isLoading: boolean;
   loaded: boolean;
-  today: IDay;
+  next: ()  => void;
+  previous: () => void;
+  today: IDay | undefined;
   toJson: IDay[];
 }
 
@@ -44,7 +38,9 @@ class DayStore implements IDayStore {
   @observable public isLoading: boolean = false;
   @observable public all: IDay[] = [];
   @observable public loaded = false;
-  @observable private activeDayIndex: number = 0;
+  @observable public nextLink: string | null = null;
+  @observable public prevLink: string | null = null;
+  @observable private activeDay: string | null = null;
 
   @action
   public async fetch(): Promise<void> {
@@ -52,24 +48,82 @@ class DayStore implements IDayStore {
       return;
     }
     this.isLoading = true;
-    // const response = await fetch(`${process.env.API_URL}/days/`);
-    // const parks: IPark[] = await response.json();
+    const response = await fetch(`${process.env.API_URL}/dates/today`);
+    const json: any = await response.json();
+    const { data, links } = json;
     runInAction(() => {
-      this.all = tempDays;
+      this.all = data.days;
       // The current/active date will come from the service
-      this.activeDayIndex = 0;
+      this.activeDay = data.active;
+      this.nextLink = links.next;
+      this.prevLink = links.prev;
       this.loaded = true;
       this.isLoading = false;
     });
   }
 
-  public findById(id: string): IDay | undefined {
-    return this.all.find(day => day.id === id);
+  public findById(date: string): IDay | undefined {
+    return this.all.find(day => day.date === date);
+  }
+
+  @action
+  public async next() {
+    // given the current, go to the next
+    if (!this.activeDay) {
+      return;
+    }
+
+    const index = this.all.findIndex(day => day.date === this.activeDay);
+    if (index === -1) {
+      return;
+    }
+
+    // if this does not exist we need to fetch
+    const next = this.all[index + 1];
+    if (!next) {
+      // if it doesn't exist we need to check we have a next link
+      if (this.nextLink) {
+        this.isLoading = true;
+        const response = await fetch(this.nextLink);
+        const dates: IDays = await response.json();
+        this.activeDay = null;
+      } else {
+        this.activeDay = null;
+      }
+    } else {
+      this.activeDay = next.date;
+    }
+  }
+
+  @action
+  public async previous() {
+    // given the current, go to the next
+    if (!this.activeDay) {
+      return;
+    }
+
+    const index = this.all.findIndex(day => day.date === this.activeDay);
+    if (index === -1) {
+      return;
+    }
+
+    // if this does not exist we need to fetch
+    const next = this.all[index - 1];
+    if (!next) {
+      // TODO: fetch
+      this.activeDay = null;
+    } else {
+      this.activeDay = next.date;
+    }
   }
 
   @computed
-  public get today(): IDay {
-    return this.all[this.activeDayIndex];
+  public get today(): IDay | undefined {
+    if (!this.activeDay) {
+      return;
+    }
+
+    return this.findById(this.activeDay);
   }
 
   @computed
